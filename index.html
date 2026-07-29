@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>文字起こしツール</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <header class="app-header">
+    <h1>文字起こしツール</h1>
+    <p class="sub">会議・授業の音声をテキストに変換します</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="realtime">リアルタイム</button>
+    <button class="tab-btn" data-tab="upload">ファイルアップロード</button>
+  </div>
+
+  <!-- リアルタイム文字起こし -->
+  <section id="tab-realtime" class="tab-panel active">
+    <p class="desc">
+      ブラウザの音声認識機能を使って、マイクの音声をその場でテキスト化します。
+      無料で使えますが、Google Chromeでの利用を推奨します。
+    </p>
+
+    <div id="realtime-unsupported" class="notice hidden">
+      お使いのブラウザは音声認識に対応していません。Google Chromeでお試しください。
+    </div>
+
+    <div class="controls">
+      <button id="btn-start" class="btn btn-primary">録音開始</button>
+      <button id="btn-stop" class="btn" disabled>停止</button>
+      <span id="rec-status" class="status"></span>
+    </div>
+
+    <textarea id="realtime-output" class="transcript-output" readonly
+      placeholder="ここに文字起こし結果が表示されます..."></textarea>
+
+    <div class="controls">
+      <button id="btn-clear-realtime" class="btn btn-ghost">クリア</button>
+      <button id="btn-copy-realtime" class="btn btn-ghost">コピー</button>
+      <button id="btn-download-realtime" class="btn btn-ghost">テキスト保存</button>
+    </div>
+  </section>
+
+  <!-- ファイルアップロード文字起こし -->
+  <section id="tab-upload" class="tab-panel">
+    <p class="desc">
+      録音済みの音声ファイルをOpenAIのWhisper APIで高精度に文字起こしします。
+      利用にはご自身のOpenAI APIキーが必要です（従量課金）。
+    </p>
+
+    <div class="field">
+      <label for="api-key">OpenAI APIキー</label>
+      <input type="password" id="api-key" placeholder="sk-...">
+      <label class="checkbox-label">
+        <input type="checkbox" id="remember-key">
+        このブラウザに保存する（このデバイスのlocalStorageにのみ保存され、外部には送信されません）
+      </label>
+    </div>
+
+    <div class="field">
+      <label for="audio-file">音声ファイル</label>
+      <input type="file" id="audio-file" accept="audio/*">
+      <p class="hint">対応形式: mp3, wav, m4a など（最大25MB）</p>
+    </div>
+
+    <div class="controls">
+      <button id="btn-transcribe" class="btn btn-primary">文字起こしを実行</button>
+      <span id="upload-status" class="status"></span>
+    </div>
+
+    <textarea id="upload-output" class="transcript-output" readonly
+      placeholder="ここに文字起こし結果が表示されます..."></textarea>
+
+    <div class="controls">
+      <button id="btn-copy-upload" class="btn btn-ghost">コピー</button>
+      <button id="btn-download-upload" class="btn btn-ghost">テキスト保存</button>
+    </div>
+  </section>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
